@@ -17,7 +17,6 @@ type Grid struct {
 }
 
 func main() {
-	fmt.Println("Test!\n")
 	area := Grid{make([][]Cell, 12)}
 	for i := 0; i < len(area.Grid); i++ {
 		area.Grid[i] = make([]Cell, 12)
@@ -52,5 +51,11 @@ func main() {
 				area.Grid[i][j].Val = "."
 			}
 		}
+	}
+	for _, row := range area.Grid {
+		for _, cell := range row {
+			fmt.Print(cell.Val)
+		}
+		fmt.Println()
 	}
 }
