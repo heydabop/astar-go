@@ -17,9 +17,10 @@ type Grid struct {
 }
 
 func main() {
-	area := Grid{make([][]Cell, 12)}
+	rows, cols := 12, 24
+	area := Grid{make([][]Cell, rows)}
 	for i := 0; i < len(area.Grid); i++ {
-		area.Grid[i] = make([]Cell, 12)
+		area.Grid[i] = make([]Cell, cols)
 	}
 	for i := 0; i < len(area.Grid); i++ {
 		for j := 0; j < len(area.Grid[i]); j++ {
