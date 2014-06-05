@@ -11,7 +11,8 @@ type Cell struct {
 	Bottom *Cell
 	Left   *Cell
 	Right  *Cell
-	Val    byte
+	Base   byte
+	Unit   *Walker
 }
 
 type Grid struct {
@@ -19,9 +20,9 @@ type Grid struct {
 }
 
 type Walker struct {
-	row uint
-	col uint
-	val byte
+	Row int
+	Col int
+	Val byte
 }
 
 func main() {
@@ -35,37 +36,44 @@ func main() {
 		for j := 0; j < len(area.Grid[i]); j++ {
 			if i == 0 {
 				area.Grid[i][j].Top = nil
-				area.Grid[i][j].Val = 'X'
+				area.Grid[i][j].Base = 'X'
 			} else {
 				area.Grid[i][j].Top = &area.Grid[i-1][j]
 			}
 			if i == len(area.Grid)-1 {
 				area.Grid[i][j].Bottom = nil
-				area.Grid[i][j].Val = 'X'
+				area.Grid[i][j].Base = 'X'
 			} else {
 				area.Grid[i][j].Bottom = &area.Grid[i+1][j]
 			}
 			if j == 0 {
 				area.Grid[i][j].Left = nil
-				area.Grid[i][j].Val = 'X'
+				area.Grid[i][j].Base = 'X'
 			} else {
 				area.Grid[i][j].Left = &area.Grid[i][j-1]
 			}
 			if j == len(area.Grid[i])-1 {
 				area.Grid[i][j].Right = nil
-				area.Grid[i][j].Val = 'X'
+				area.Grid[i][j].Base = 'X'
 			} else {
 				area.Grid[i][j].Right = &area.Grid[i][j+1]
 			}
-			if area.Grid[i][j].Val == 0 {
-				area.Grid[i][j].Val = '.'
+			if area.Grid[i][j].Base == 0 {
+				area.Grid[i][j].Base = '.'
 			}
 		}
 	}
-	area.Grid[rows/2][cols/2].Val = 'o'
+	
+	x := Walker{rows / 2, cols / 2, 'O'}
+	area.Grid[rows/2][cols/2].Unit = &x
+	
 	for _, row := range area.Grid {
 		for _, cell := range row {
-			fmt.Printf("%c", cell.Val)
+			if cell.Unit == nil {
+				fmt.Printf("%c", cell.Base)
+			} else {
+				fmt.Printf("%c", cell.Unit.Val)
+			}
 		}
 		fmt.Println()
 	}
