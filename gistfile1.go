@@ -20,9 +20,32 @@ type Grid struct {
 }
 
 type Walker struct {
-	Row int
-	Col int
+	Pos *Cell
 	Val byte
+}
+
+func (w Walker) RandWalk() {
+	d := rand.Intn(3)
+	var oldCell = w.Pos
+	var newCell *Cell
+	switch d {
+	case 0:
+		newCell = w.Pos.Top
+		fmt.Println("UP")
+	case 1:
+		newCell = w.Pos.Right
+		fmt.Println("RIGHT")
+	case 2:
+		newCell = w.Pos.Bottom
+		fmt.Println("DOWN")
+	case 3:
+		newCell = w.Pos.Left
+		fmt.Println("LEFT")
+	}
+	oldCell.Unit = nil
+	newCell.Unit = &w
+	w.Pos = newCell
+	time.Sleep(time.Second)
 }
 
 func main() {
@@ -63,18 +86,21 @@ func main() {
 			}
 		}
 	}
-	
-	x := Walker{rows / 2, cols / 2, 'O'}
-	area.Grid[rows/2][cols/2].Unit = &x
-	
-	for _, row := range area.Grid {
-		for _, cell := range row {
-			if cell.Unit == nil {
-				fmt.Printf("%c", cell.Base)
-			} else {
-				fmt.Printf("%c", cell.Unit.Val)
+
+	w := Walker{&area.Grid[rows/2][cols/2], 'O'}
+	area.Grid[rows/2][cols/2].Unit = &w
+
+	for {
+		for _, row := range area.Grid {
+			for _, cell := range row {
+				if cell.Unit == nil {
+					fmt.Printf("%c", cell.Base)
+				} else {
+					fmt.Printf("%c", cell.Unit.Val)
+				}
 			}
+			fmt.Println()
 		}
-		fmt.Println()
+		w.RandWalk()
 	}
 }
