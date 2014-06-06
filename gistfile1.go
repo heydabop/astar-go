@@ -24,7 +24,7 @@ type Walker struct {
 	Val byte
 }
 
-func (w Walker) RandWalk() {
+func (w *Walker) RandWalk() {
 	d := rand.Intn(3)
 	var oldCell = w.Pos
 	var newCell *Cell
@@ -43,7 +43,7 @@ func (w Walker) RandWalk() {
 		fmt.Println("LEFT")
 	}
 	oldCell.Unit = nil
-	newCell.Unit = &w
+	newCell.Unit = w
 	w.Pos = newCell
 	time.Sleep(time.Second)
 }
@@ -90,7 +90,7 @@ func main() {
 	w := Walker{&area.Grid[rows/2][cols/2], 'O'}
 	area.Grid[rows/2][cols/2].Unit = &w
 
-	for {
+	for i := 0; i < 3; i++ {
 		for _, row := range area.Grid {
 			for _, cell := range row {
 				if cell.Unit == nil {
