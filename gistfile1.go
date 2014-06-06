@@ -90,7 +90,8 @@ func main() {
 	w := Walker{&area.Grid[rows/2][cols/2], 'O'}
 	area.Grid[rows/2][cols/2].Unit = &w
 
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 6; i++ {
+		w.RandWalk()
 		for _, row := range area.Grid {
 			for _, cell := range row {
 				if cell.Unit == nil {
@@ -101,6 +102,5 @@ func main() {
 			}
 			fmt.Println()
 		}
-		w.RandWalk()
 	}
 }
