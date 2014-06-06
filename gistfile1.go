@@ -70,7 +70,7 @@ func (pq *PQueue) Update(node *Node, this, parent *Cell, f int) {
 }
 
 func (g Grid) Println() {
-	for _, row := range g{
+	for _, row := range g {
 		for _, cell := range row {
 			if cell.Unit == nil {
 				fmt.Printf("%c", cell.Base)
@@ -176,6 +176,9 @@ func main() {
 
 	area[3][12].Base = 'X'
 
-	area.Println()
+	for i := 0; i < 10; i++ {
+		w.RandWalk(3)
+		area.Println()
+	}
 
 }
