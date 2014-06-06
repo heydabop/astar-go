@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"math/rand"
 	"time"
 )
@@ -64,7 +63,15 @@ func (w *Walker) RandWalk(steps int) {
 }
 
 func Manhattan(n1, n2 Cell) int {
-	return int(math.Abs(float64(n2.Row-n1.Row))) + int(math.Abs(float64(n2.Col-n1.Col)))
+	row := n2.Row - n1.Row
+	col := n2.Col - n1.Col
+	if row < 0 {
+		row = -row
+	}
+	if col < 0 {
+		col = -col
+	}
+	return row + col
 }
 
 func main() {
