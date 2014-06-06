@@ -24,28 +24,33 @@ type Walker struct {
 	Val byte
 }
 
-func (w *Walker) RandWalk() {
-	d := rand.Intn(3)
+func (w *Walker) RandStep() {
 	var oldCell = w.Pos
 	var newCell *Cell
-	switch d {
-	case 0:
-		newCell = w.Pos.Top
-		fmt.Println("UP")
-	case 1:
-		newCell = w.Pos.Right
-		fmt.Println("RIGHT")
-	case 2:
-		newCell = w.Pos.Bottom
-		fmt.Println("DOWN")
-	case 3:
-		newCell = w.Pos.Left
-		fmt.Println("LEFT")
+	for {
+		switch rand.Intn(3) {
+		case 0:
+			newCell = w.Pos.Top
+			fmt.Println("UP")
+		case 1:
+			newCell = w.Pos.Right
+			fmt.Println("RIGHT")
+		case 2:
+			newCell = w.Pos.Bottom
+			fmt.Println("DOWN")
+		case 3:
+			newCell = w.Pos.Left
+			fmt.Println("LEFT")
+		}
+		if newCell.Base == 'X' {
+			continue
+		} else {
+			break
+		}
 	}
 	oldCell.Unit = nil
 	newCell.Unit = w
 	w.Pos = newCell
-	time.Sleep(time.Second)
 }
 
 func main() {
@@ -90,8 +95,10 @@ func main() {
 	w := Walker{&area.Grid[rows/2][cols/2], 'O'}
 	area.Grid[rows/2][cols/2].Unit = &w
 
-	for i := 0; i < 6; i++ {
-		w.RandWalk()
+	area.Grid[3][12].Base = 'X'
+
+	for i := 0; i < 12; i++ {
+		w.RandStep()
 		for _, row := range area.Grid {
 			for _, cell := range row {
 				if cell.Unit == nil {
@@ -102,5 +109,6 @@ func main() {
 			}
 			fmt.Println()
 		}
+		time.Sleep(time.Second)
 	}
 }
