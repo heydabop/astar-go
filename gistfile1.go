@@ -25,7 +25,7 @@ type Grid [][]Cell
 type Node struct {
 	This   *Cell
 	Parent *Node
-	Adj    [4]*Cell
+	Adj    [4]*Node
 	G      int
 	H      int
 	I      int
@@ -71,9 +71,9 @@ func (pq *PQueue) Update(node *Node, this *Cell, parent *Node, f int) {
 	heap.Push(pq, node)
 }
 
-func (pq PQueue) ContainsCell(elem *Cell) bool {
+func (pq PQueue) Contains(elem *Node) bool {
 	for _, node := range pq {
-		if elem == node.This {
+		if elem.This == node.This {
 			return true
 		}
 	}
@@ -146,6 +146,7 @@ func Manhattan(n1, n2 Cell) int {
 	}
 	return row + col
 }
+
 /*
 func AStar(start, goal *Node) []*Node {
 	open := &PQueue{}
@@ -156,20 +157,43 @@ func AStar(start, goal *Node) []*Node {
 		closed[curr] = curr
 		cost := curr.G + 1
 		for _, adj := range curr.Adj {
-			if open.ContainsCell(adj) && cost < adj.G {
+			if open.Contains(adj) && cost < adj.G {
 				heap.Remove(open, adj.I)
 			}
-			if _, inClosed = closed[adj]; !open.ContainsCell(adj) && !inClosed {
+			if _, inClosed := closed[adj]; !open.Contains(adj) && !inClosed {
 				adj.G = cost
 				heap.Push(open, start)
-				adj.H = Manhattan(adj, goal)
+				adj.H = Manhattan(*adj.This, *goal.This)
 				adj.Parent = curr
 			}
 
 		}
 	}
+	return make([]*Node, 4)
+}
+
+//ive created a monster.
+
+func CellsToNodes(g *Grid) map[Cell]Node {
+	nodeMap := make(map[Cell]Node)
+	for _, row := range *g {
+		for _, cell := range row {
+			nodeMap[cell] = Node{&cell,
+				nil,
+				[4]*Node{nil, nil, nil, nil},
+				0, 0, 0}
+		}
+	}
+	for _, node := range nodeMap {
+		node.Adj[0] = nodeMap[*node.This.Top]
+		node.Adj[1] = nodeMap[*node.This.Right]
+		node.Adj[2] = nodeMap[*node.This.Bottom]
+		node.Adj[3] = nodeMap[*node.This.Left]
+	}
+	return nodeMap
 }
 */
+
 func main() {
 	rand.Seed(time.Now().Unix())
 	rows, cols := 12, 24
