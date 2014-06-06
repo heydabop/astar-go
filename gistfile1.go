@@ -71,6 +71,19 @@ func (pq *PQueue) Update(node *Node, this, parent *Cell, f int) {
 	heap.Push(pq, node)
 }
 
+func (g Grid) Println() {
+	for _, row := range g.Grid {
+		for _, cell := range row {
+			if cell.Unit == nil {
+				fmt.Printf("%c", cell.Base)
+			} else {
+				fmt.Printf("%c", cell.Unit.Val)
+			}
+		}
+		fmt.Println()
+	}
+}
+
 func (w *Walker) RandStep() {
 	var oldCell = w.Pos
 	var newCell *Cell
@@ -165,17 +178,6 @@ func main() {
 
 	area.Grid[3][12].Base = 'X'
 
-	for i := 0; i < 10; i++ {
-		w.RandWalk(3)
-		for _, row := range area.Grid {
-			for _, cell := range row {
-				if cell.Unit == nil {
-					fmt.Printf("%c", cell.Base)
-				} else {
-					fmt.Printf("%c", cell.Unit.Val)
-				}
-			}
-			fmt.Println()
-		}
-	}
+	area.Println()
+
 }
