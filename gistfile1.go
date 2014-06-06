@@ -1,10 +1,13 @@
 package main
 
 import (
+	"container/heap"
 	"fmt"
 	"math/rand"
 	"time"
 )
+
+type PQueue []*Node
 
 type Cell struct {
 	Top    *Cell
@@ -21,9 +24,51 @@ type Grid struct {
 	Grid [][]Cell
 }
 
+type Node struct {
+	This   *Cell
+	Parent *Cell
+	F      int
+	I      int
+}
+
 type Walker struct {
 	Pos *Cell
 	Val byte
+}
+
+func (pq PQueue) Len() int { return len(pq) }
+
+func (pq PQueue) Less(i, j int) bool {
+	return pq[i].F < pq[j].F
+}
+
+func (pq PQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+	pq[i].I = i
+	pq[j].I = j
+}
+
+func (pq *PQueue) Push(x interface{}) {
+	n := len(*pq)
+	node := x.(*Node)
+	node.I = n
+	*pq = append(*pq, node)
+}
+
+func (pq *PQueue) Pop() interface{} {
+	old := *pq
+	n := len(old)
+	node := old[n-1]
+	node.I = -1
+	*pq = old[:n-1]
+	return node
+}
+
+func (pq *PQueue) Update(node *Node, this, parent *Cell, f int) {
+	heap.Remove(pq, node.I)
+	node.This = this
+	node.Parent = parent
+	heap.Push(pq, node)
 }
 
 func (w *Walker) RandStep() {
