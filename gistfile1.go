@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"time"
 )
@@ -13,6 +14,8 @@ type Cell struct {
 	Right  *Cell
 	Base   byte
 	Unit   *Walker
+	Row    int
+	Col    int
 }
 
 type Grid struct {
@@ -60,6 +63,10 @@ func (w *Walker) RandWalk(steps int) {
 	}
 }
 
+func Manhattan(n1, n2 Cell) int {
+	return int(math.Abs(float64(n2.Row-n1.Row))) + int(math.Abs(float64(n2.Col-n1.Col)))
+}
+
 func main() {
 	rand.Seed(time.Now().Unix())
 	rows, cols := 12, 24
@@ -69,6 +76,8 @@ func main() {
 	}
 	for i := 0; i < len(area.Grid); i++ {
 		for j := 0; j < len(area.Grid[i]); j++ {
+			area.Grid[i][j].Row = i
+			area.Grid[i][j].Col = j
 			if i == 0 {
 				area.Grid[i][j].Top = nil
 				area.Grid[i][j].Base = 'X'
@@ -116,6 +125,5 @@ func main() {
 			}
 			fmt.Println()
 		}
-		time.Sleep(time.Second)
 	}
 }
