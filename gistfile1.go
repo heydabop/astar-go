@@ -43,6 +43,7 @@ func (w *Walker) RandStep() {
 			fmt.Println("LEFT")
 		}
 		if newCell.Base == 'X' {
+			fmt.Println("BLOCKED")
 			continue
 		} else {
 			break
@@ -51,6 +52,12 @@ func (w *Walker) RandStep() {
 	oldCell.Unit = nil
 	newCell.Unit = w
 	w.Pos = newCell
+}
+
+func (w *Walker) RandWalk(steps int) {
+	for i := 0; i < steps; i++ {
+		w.RandStep()
+	}
 }
 
 func main() {
@@ -97,8 +104,8 @@ func main() {
 
 	area.Grid[3][12].Base = 'X'
 
-	for i := 0; i < 12; i++ {
-		w.RandStep()
+	for i := 0; i < 10; i++ {
+		w.RandWalk(3)
 		for _, row := range area.Grid {
 			for _, cell := range row {
 				if cell.Unit == nil {
