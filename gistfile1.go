@@ -24,8 +24,10 @@ type Grid [][]Cell
 
 type Node struct {
 	This   *Cell
-	Parent *Cell
-	F      int
+	Parent *Node
+	Adj    [4]*Cell
+	G      int
+	H      int
 	I      int
 }
 
@@ -37,7 +39,7 @@ type Walker struct {
 func (pq PQueue) Len() int { return len(pq) }
 
 func (pq PQueue) Less(i, j int) bool {
-	return pq[i].F < pq[j].F
+	return pq[i].G+pq[i].H < pq[j].G+pq[j].H
 }
 
 func (pq PQueue) Swap(i, j int) {
@@ -62,11 +64,20 @@ func (pq *PQueue) Pop() interface{} {
 	return node
 }
 
-func (pq *PQueue) Update(node *Node, this, parent *Cell, f int) {
+func (pq *PQueue) Update(node *Node, this *Cell, parent *Node, f int) {
 	heap.Remove(pq, node.I)
 	node.This = this
 	node.Parent = parent
 	heap.Push(pq, node)
+}
+
+func (pq PQueue) ContainsCell(elem *Cell) bool {
+	for _, node := range pq {
+		if elem == node.This {
+			return true
+		}
+	}
+	return false
 }
 
 func (g Grid) Println() {
@@ -135,7 +146,30 @@ func Manhattan(n1, n2 Cell) int {
 	}
 	return row + col
 }
+/*
+func AStar(start, goal *Node) []*Node {
+	open := &PQueue{}
+	closed := make(map[*Node]*Node)
+	heap.Init(open)
+	heap.Push(open, start)
+	for curr := heap.Pop(open).(*Node); curr.This != goal.This; curr = heap.Pop(open).(*Node) {
+		closed[curr] = curr
+		cost := curr.G + 1
+		for _, adj := range curr.Adj {
+			if open.ContainsCell(adj) && cost < adj.G {
+				heap.Remove(open, adj.I)
+			}
+			if _, inClosed = closed[adj]; !open.ContainsCell(adj) && !inClosed {
+				adj.G = cost
+				heap.Push(open, start)
+				adj.H = Manhattan(adj, goal)
+				adj.Parent = curr
+			}
 
+		}
+	}
+}
+*/
 func main() {
 	rand.Seed(time.Now().Unix())
 	rows, cols := 12, 24
