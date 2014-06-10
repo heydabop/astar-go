@@ -4,7 +4,7 @@ import "container/heap"
 
 type PQueue struct {
 	val []*Node
-	key map[*Node]int
+	key map[*Node]int //this is a horrible idea.
 }
 
 func (pq PQueue) Len() int { return len(pq.val) }
