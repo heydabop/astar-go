@@ -1,7 +1,6 @@
 package main
 
 import "container/heap"
-import "fmt"
 
 func Manhattan(n1, n2 *Cell) int {
 	row := n2.Loc.Row - n1.Loc.Row
@@ -30,12 +29,10 @@ func AStar(start, goal *Cell) []*Cell {
 	heap.Push(open, start)
 
 	for curr := heap.Pop(open).(*Cell); curr.Loc != goal.Loc; curr = heap.Pop(open).(*Cell) {
-		fmt.Print(curr.Loc, " ")
 		closed[curr.Loc] = curr
 		newCost := G[curr.Loc] + 1
 		for _, adj := range curr.Adj {
 			H[adj.Loc] = Manhattan(adj, goal)
-			fmt.Print(adj.Loc, " ")
 			if _, inClosed := closed[adj.Loc]; inClosed {
 				continue
 			} else if inOpen := open.Contains(adj); !inOpen || newCost < G[adj.Loc] {
@@ -50,12 +47,9 @@ func AStar(start, goal *Cell) []*Cell {
 				}
 			}
 		}
-		fmt.Println()
 	}
 	path := make([]*Cell, 0)
-	fmt.Println(len(parent))
 	for curr := parent[goal.Loc]; curr.Loc != start.Loc; curr = parent[curr.Loc] {
-		fmt.Println(curr.Loc)
 		path = append(path, curr)
 	}
 	return path

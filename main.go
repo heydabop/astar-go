@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -57,12 +56,12 @@ func main() {
 		area.Println()
 	}*/
 
-	path := AStar(&area[3][4], &area[7][8])
-	fmt.Println(len(path))
+	path := AStar(&area[3][4], &area[7][15])
+	area[3][4].Base = '*'
 	for _, cell := range path {
 		cell.Base = '+'
-		fmt.Println(cell.Loc)
 	}
+	area[7][15].Base = '-'
 	area.Println()
 
 }
