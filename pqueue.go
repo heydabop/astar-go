@@ -32,7 +32,7 @@ func (pq *PQueue) Pop() interface{} {
 
 func (pq PQueue) Contains(elem *Cell) bool {
 	for _, node := range pq {
-		if elem == node {
+		if elem.Loc == node.Loc {
 			return true
 		}
 	}

@@ -37,21 +37,36 @@ func AStar(start, goal *Cell) []*Cell {
 			fmt.Print(adj.Loc, " ")
 			if _, inClosed := closed[adj.Loc]; inClosed && newCost < G[adj.Loc] {
 				G[adj.Loc] = newCost
+				adj.Key = H[adj.Loc] + G[adj.Loc]
+				heap.Fix(open, adj.I)
 				parent[adj.Loc] = curr
+				if adj.Loc == goal.Loc {
+					fmt.Print(adj.Loc, "parent is", curr.Loc)
+				}
 			} else if open.Contains(adj) && newCost < G[adj.Loc] {
 				G[adj.Loc] = newCost
+				adj.Key = H[adj.Loc] + G[adj.Loc]
+				heap.Fix(open, adj.I)
 				parent[adj.Loc] = curr
+				if adj.Loc == goal.Loc {
+					fmt.Print(adj.Loc, "parent is", curr.Loc)
+				}
 			} else {
 				G[adj.Loc] = newCost
 				H[adj.Loc] = Manhattan(adj, goal)
 				adj.Key = G[adj.Loc] + H[adj.Loc]
+				if adj.Loc == goal.Loc {
+					fmt.Print(adj.Loc, "source is", curr.Loc)
+				}
 				heap.Push(open, adj)
 			}
 		}
 		fmt.Println()
 	}
 	path := make([]*Cell, 12)
+	fmt.Println(len(parent))
 	for curr := parent[goal.Loc]; curr.Loc != start.Loc; curr = parent[curr.Loc] {
+		fmt.Println(curr.Loc)
 		path = append(path, curr)
 	}
 	return path
