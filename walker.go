@@ -15,16 +15,16 @@ func (w *Walker) Step(d int) bool {
 	var newCell *Cell
 	switch d {
 	case 0:
-		newCell = w.Pos.Top
+		newCell = w.Pos.Adj[0]
 		fmt.Println("UP")
 	case 1:
-		newCell = w.Pos.Right
+		newCell = w.Pos.Adj[1]
 		fmt.Println("RIGHT")
 	case 2:
-		newCell = w.Pos.Bottom
+		newCell = w.Pos.Adj[2]
 		fmt.Println("DOWN")
 	case 3:
-		newCell = w.Pos.Left
+		newCell = w.Pos.Adj[3]
 		fmt.Println("LEFT")
 	}
 	if newCell.Base == 'X' {

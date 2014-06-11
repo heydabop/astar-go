@@ -3,10 +3,7 @@ package main
 import "fmt"
 
 type Cell struct {
-	Top    *Cell
-	Bottom *Cell
-	Left   *Cell
-	Right  *Cell
+	Adj    [4]*Cell
 	Base   byte
 	Unit   *Walker
 	Row    int

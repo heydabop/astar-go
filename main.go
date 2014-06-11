@@ -17,28 +17,28 @@ func main() {
 			area[i][j].Row = i
 			area[i][j].Col = j
 			if i == 0 {
-				area[i][j].Top = nil
+				area[i][j].Adj[0] = nil
 				area[i][j].Base = 'X'
 			} else {
-				area[i][j].Top = &area[i-1][j]
+				area[i][j].Adj[0] = &area[i-1][j]
 			}
 			if i == len(area)-1 {
-				area[i][j].Bottom = nil
+				area[i][j].Adj[2] = nil
 				area[i][j].Base = 'X'
 			} else {
-				area[i][j].Bottom = &area[i+1][j]
+				area[i][j].Adj[2] = &area[i+1][j]
 			}
 			if j == 0 {
-				area[i][j].Left = nil
+				area[i][j].Adj[3] = nil
 				area[i][j].Base = 'X'
 			} else {
-				area[i][j].Left = &area[i][j-1]
+				area[i][j].Adj[3] = &area[i][j-1]
 			}
 			if j == len(area[i])-1 {
-				area[i][j].Right = nil
+				area[i][j].Adj[1] = nil
 				area[i][j].Base = 'X'
 			} else {
-				area[i][j].Right = &area[i][j+1]
+				area[i][j].Adj[1] = &area[i][j+1]
 			}
 			if area[i][j].Base == 0 {
 				area[i][j].Base = '.'
