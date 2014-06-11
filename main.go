@@ -59,11 +59,13 @@ func main() {
 
 	path := AStar(&area[3][4], &area[7][8])
 	fmt.Println(len(path))
-	/*for _, cell := range path {
-		fmt.Print(cell)
+	for _, cell := range path {
+		if cell == nil {
+			continue
+		}
 		cell.Base = 'O'
 		fmt.Println(cell.Loc)
-	}*/
+	}
 	area.Println()
 
 }

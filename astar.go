@@ -56,7 +56,6 @@ func AStar(start, goal *Cell) []*Cell {
 	for curr := parent[goal.Loc]; curr.Loc != start.Loc; curr = parent[curr.Loc] {
 		fmt.Println(curr.Loc)
 		path = append(path, curr)
-		curr.Base = 'O'
 	}
 	return path
 }
