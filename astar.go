@@ -42,6 +42,7 @@ func AStar(start, goal *Cell) []*Cell {
 				parent[adj.Loc] = curr
 				G[adj.Loc] = newCost
 				adj.Key = G[adj.Loc] + H[adj.Loc]
+				adj.Base = 'o'
 				if inOpen {
 					heap.Fix(open, adj.I)
 				} else {

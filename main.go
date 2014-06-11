@@ -63,7 +63,7 @@ func main() {
 		if cell == nil {
 			continue
 		}
-		cell.Base = 'O'
+		cell.Base = '+'
 		fmt.Println(cell.Loc)
 	}
 	area.Println()
