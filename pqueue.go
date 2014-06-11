@@ -15,10 +15,10 @@ func (pq PQueue) Swap(i, j int) {
 }
 
 func (pq *PQueue) Push(x interface{}) {
-	n := len((*pq))
+	n := len(*pq)
 	node := x.(*Cell)
 	node.I = n
-	(*pq) = append((*pq), node)
+	(*pq) = append(*pq, node)
 }
 
 func (pq *PQueue) Pop() interface{} {
@@ -26,7 +26,7 @@ func (pq *PQueue) Pop() interface{} {
 	n := len(old)
 	node := old[n-1]
 	node.I = -1
-	(*pq) = old[:n-1]
+	*pq = old[:n-1]
 	return node
 }
 
