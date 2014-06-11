@@ -52,7 +52,7 @@ func AStar(start, goal *Cell) []*Cell {
 		}
 		fmt.Println()
 	}
-	path := make([]*Cell, 12)
+	path := make([]*Cell, 0)
 	fmt.Println(len(parent))
 	for curr := parent[goal.Loc]; curr.Loc != start.Loc; curr = parent[curr.Loc] {
 		fmt.Println(curr.Loc)
