@@ -20,12 +20,12 @@ func AStar(start, goal *Cell) []*Cell {
 
 	G := make(map[Cord]int)
 	H := make(map[Cord]int)
-	parent := make(map[Cord]Cell)
+	parent := make(map[Cord]*Cell)
 
 	heap.Init(open)
 	heap.Push(open, start)
 
-	for curr := heap.Pop(open).(*Cell); curr != goal; curr = heap.Pop(open).(*Cell) {
+	for curr := heap.Pop(open).(*Cell); curr.Loc != goal.Loc; curr = heap.Pop(open).(*Cell) {
 		closed[curr.Loc] = *curr
 		cost := G[curr.Loc] + 1
 		for _, adj := range curr.Adj {
@@ -37,9 +37,13 @@ func AStar(start, goal *Cell) []*Cell {
 				H[adj.Loc] = Manhattan(*adj, *goal)
 				adj.Key = G[adj.Loc] + H[adj.Loc]
 				heap.Push(open, start)
-				parent[adj.Loc] = *curr
+				parent[adj.Loc] = curr
 			}
 		}
 	}
-	return make([]*Cell, 4)
+	path := make([]*Cell, 12)
+	for curr := parent[goal.Loc]; curr.Loc != start.Loc; curr = parent[curr.Loc] {
+		path = append(path, curr)
+	}
+	return path
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -46,7 +47,7 @@ func main() {
 		}
 	}
 
-	w := Walker{&area[rows/2][cols/2], 'O'}
+	/*w := Walker{&area[rows/2][cols/2], 'O'}
 	area[rows/2][cols/2].Unit = &w
 
 	area[3][12].Base = 'X'
@@ -54,6 +55,12 @@ func main() {
 	for i := 0; i < 10; i++ {
 		w.RandWalk(3)
 		area.Println()
+	}*/
+
+	path := AStar(&area[3][4], &area[7][8])
+	for _, cell := range path {
+		cell.Base = 'O'
+		fmt.Println(cell.Loc)
 	}
 
 }
