@@ -1,5 +1,7 @@
 package main
 
+import "container/heap"
+
 func Manhattan(n1, n2 Cell) int {
 	row := n2.Loc.Row - n1.Loc.Row
 	col := n2.Loc.Col - n1.Loc.Col
@@ -12,28 +14,32 @@ func Manhattan(n1, n2 Cell) int {
 	return row + col
 }
 
-/*
-func AStar(start, goal *Node) []*Node {
+func AStar(start, goal *Cell) []*Cell {
 	open := &PQueue{}
-	closed := make(map[*Node]*Node)
+	closed := make(map[Cord]Cell)
+
+	G := make(map[Cord]int)
+	H := make(map[Cord]int)
+	parent := make(map[Cord]Cell)
+
 	heap.Init(open)
 	heap.Push(open, start)
-	for curr := heap.Pop(open).(*Node); curr.This != goal.This; curr = heap.Pop(open).(*Node) {
-		closed[curr] = curr
-		cost := curr.G + 1
+
+	for curr := heap.Pop(open).(*Cell); curr != goal; curr = heap.Pop(open).(*Cell) {
+		closed[curr.Loc] = *curr
+		cost := G[curr.Loc] + 1
 		for _, adj := range curr.Adj {
-			if open.Contains(adj) && cost < adj.G {
+			if open.Contains(adj) && cost < G[adj.Loc] {
 				heap.Remove(open, adj.I)
 			}
-			if _, inClosed := closed[adj]; !open.Contains(adj) && !inClosed {
-				adj.G = cost
+			if _, inClosed := closed[adj.Loc]; !open.Contains(adj) && !inClosed {
+				G[adj.Loc] = cost
+				H[adj.Loc] = Manhattan(*adj, *goal)
+				adj.Key = G[adj.Loc] + H[adj.Loc]
 				heap.Push(open, start)
-				adj.H = Manhattan(*adj.This, *goal.This)
-				adj.Parent = curr
+				parent[adj.Loc] = *curr
 			}
-
 		}
 	}
-	return make([]*Node, 4)
+	return make([]*Cell, 4)
 }
-*/

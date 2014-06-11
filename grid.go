@@ -13,6 +13,7 @@ type Cell struct {
 	Unit   *Walker
 	Loc Cord
 	I int
+	Key int
 }
 
 type Grid [][]Cell
