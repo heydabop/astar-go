@@ -34,31 +34,19 @@ func AStar(start, goal *Cell) []*Cell {
 		closed[curr.Loc] = curr
 		newCost := G[curr.Loc] + 1
 		for _, adj := range curr.Adj {
+			H[adj.Loc] = Manhattan(adj, goal)
 			fmt.Print(adj.Loc, " ")
-			if _, inClosed := closed[adj.Loc]; inClosed && newCost < G[adj.Loc] {
-				G[adj.Loc] = newCost
-				adj.Key = H[adj.Loc] + G[adj.Loc]
-				heap.Fix(open, adj.I)
+			if _, inClosed := closed[adj.Loc]; inClosed {
+				continue
+			} else if inOpen := open.Contains(adj); !inOpen || newCost < G[adj.Loc] {
 				parent[adj.Loc] = curr
-				if adj.Loc == goal.Loc {
-					fmt.Print(adj.Loc, "parent is", curr.Loc)
-				}
-			} else if open.Contains(adj) && newCost < G[adj.Loc] {
 				G[adj.Loc] = newCost
-				adj.Key = H[adj.Loc] + G[adj.Loc]
-				heap.Fix(open, adj.I)
-				parent[adj.Loc] = curr
-				if adj.Loc == goal.Loc {
-					fmt.Print(adj.Loc, "parent is", curr.Loc)
-				}
-			} else {
-				G[adj.Loc] = newCost
-				H[adj.Loc] = Manhattan(adj, goal)
 				adj.Key = G[adj.Loc] + H[adj.Loc]
-				if adj.Loc == goal.Loc {
-					fmt.Print(adj.Loc, "source is", curr.Loc)
+				if inOpen {
+					heap.Fix(open, adj.I)
+				} else {
+					heap.Push(open, adj)
 				}
-				heap.Push(open, adj)
 			}
 		}
 		fmt.Println()
@@ -68,6 +56,7 @@ func AStar(start, goal *Cell) []*Cell {
 	for curr := parent[goal.Loc]; curr.Loc != start.Loc; curr = parent[curr.Loc] {
 		fmt.Println(curr.Loc)
 		path = append(path, curr)
+		curr.Base = 'O'
 	}
 	return path
 }
