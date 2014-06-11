@@ -1,8 +1,8 @@
 package main
 
 func Manhattan(n1, n2 Cell) int {
-	row := n2.Row - n1.Row
-	col := n2.Col - n1.Col
+	row := n2.Loc.Row - n1.Loc.Row
+	col := n2.Loc.Col - n1.Loc.Col
 	if row < 0 {
 		row = -row
 	}

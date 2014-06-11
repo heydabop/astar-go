@@ -2,12 +2,17 @@ package main
 
 import "fmt"
 
+type Cord struct {
+	Row int
+	Col int
+}
+
 type Cell struct {
 	Adj    [4]*Cell
 	Base   byte
 	Unit   *Walker
-	Row    int
-	Col    int
+	Loc Cord
+	I int
 }
 
 type Grid [][]Cell

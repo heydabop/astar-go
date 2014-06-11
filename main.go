@@ -14,8 +14,8 @@ func main() {
 	}
 	for i := 0; i < len(area); i++ {
 		for j := 0; j < len(area[i]); j++ {
-			area[i][j].Row = i
-			area[i][j].Col = j
+			area[i][j].Loc.Row = i
+			area[i][j].Loc.Col = j
 			if i == 0 {
 				area[i][j].Adj[0] = nil
 				area[i][j].Base = 'X'
