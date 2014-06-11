@@ -8,12 +8,13 @@ type Cord struct {
 }
 
 type Cell struct {
-	Adj  [4]*Cell
-	Base byte
-	Unit *Walker
-	Loc  Cord
-	I    int
-	Key  int
+	Adj      [4]*Cell
+	Base     byte
+	Unit     *Walker
+	Loc      Cord
+	I        int
+	Key      int
+	Walkable bool
 }
 
 type Grid [][]Cell
