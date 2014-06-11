@@ -1,8 +1,9 @@
 package main
 
 import "container/heap"
+import "fmt"
 
-func Manhattan(n1, n2 Cell) int {
+func Manhattan(n1, n2 *Cell) int {
 	row := n2.Loc.Row - n1.Loc.Row
 	col := n2.Loc.Col - n1.Loc.Col
 	if row < 0 {
@@ -16,30 +17,38 @@ func Manhattan(n1, n2 Cell) int {
 
 func AStar(start, goal *Cell) []*Cell {
 	open := &PQueue{}
-	closed := make(map[Cord]Cell)
+	closed := make(map[Cord]*Cell)
 
 	G := make(map[Cord]int)
 	H := make(map[Cord]int)
+	G[start.Loc] = 0
+	H[start.Loc] = Manhattan(start, goal)
+	start.Key = H[start.Loc]
 	parent := make(map[Cord]*Cell)
 
 	heap.Init(open)
 	heap.Push(open, start)
 
 	for curr := heap.Pop(open).(*Cell); curr.Loc != goal.Loc; curr = heap.Pop(open).(*Cell) {
-		closed[curr.Loc] = *curr
-		cost := G[curr.Loc] + 1
+		fmt.Print(curr.Loc, " ")
+		closed[curr.Loc] = curr
+		newCost := G[curr.Loc] + 1
 		for _, adj := range curr.Adj {
-			if open.Contains(adj) && cost < G[adj.Loc] {
-				heap.Remove(open, adj.I)
-			}
-			if _, inClosed := closed[adj.Loc]; !open.Contains(adj) && !inClosed {
-				G[adj.Loc] = cost
-				H[adj.Loc] = Manhattan(*adj, *goal)
-				adj.Key = G[adj.Loc] + H[adj.Loc]
-				heap.Push(open, start)
+			fmt.Print(adj.Loc, " ")
+			if _, inClosed := closed[adj.Loc]; inClosed && newCost < G[adj.Loc] {
+				G[adj.Loc] = newCost
 				parent[adj.Loc] = curr
+			} else if open.Contains(adj) && newCost < G[adj.Loc] {
+				G[adj.Loc] = newCost
+				parent[adj.Loc] = curr
+			} else {
+				G[adj.Loc] = newCost
+				H[adj.Loc] = Manhattan(adj, goal)
+				adj.Key = G[adj.Loc] + H[adj.Loc]
+				heap.Push(open, adj)
 			}
 		}
+		fmt.Println()
 	}
 	path := make([]*Cell, 12)
 	for curr := parent[goal.Loc]; curr.Loc != start.Loc; curr = parent[curr.Loc] {
