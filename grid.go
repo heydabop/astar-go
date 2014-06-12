@@ -14,7 +14,6 @@ type Cell struct {
 	Loc      Cord
 	I        int
 	Key      int
-	Walkable bool
 }
 
 type Grid [][]Cell
@@ -30,4 +29,8 @@ func (g Grid) Println() {
 		}
 		fmt.Println()
 	}
+}
+
+func (c Cell) Walkable() bool {
+	return c.Base != 'X'
 }
