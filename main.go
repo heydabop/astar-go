@@ -56,6 +56,14 @@ func main() {
 		area.Println()
 	}*/
 
+	area[3][8].Base = 'X'
+	area[4][8].Base = 'X'
+	area[5][8].Base = 'X'
+	area[6][8].Base = 'X'
+	area[7][8].Base = 'X'
+	area[8][8].Base = 'X'
+	area[9][8].Base = 'X'
+
 	path := AStar(&area[3][4], &area[7][15])
 	area[3][4].Base = '*'
 	for _, cell := range path {

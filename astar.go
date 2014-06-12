@@ -33,6 +33,9 @@ func AStar(start, goal *Cell) []*Cell {
 		newCost := G[curr.Loc] + 1
 		for _, adj := range curr.Adj {
 			H[adj.Loc] = Manhattan(adj, goal)
+			if !adj.Walkable() {
+				continue
+			}
 			if _, inClosed := closed[adj.Loc]; inClosed {
 				continue
 			} else if inOpen := open.Contains(adj); !inOpen || newCost < G[adj.Loc] {

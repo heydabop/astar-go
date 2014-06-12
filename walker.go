@@ -27,7 +27,7 @@ func (w *Walker) Step(d int) bool {
 		newCell = w.Pos.Adj[3]
 		fmt.Println("LEFT")
 	}
-	if newCell.Base == 'X' {
+	if !newCell.Walkable() {
 		fmt.Println("BLOCKED")
 		return false
 	}
