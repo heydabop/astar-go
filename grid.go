@@ -22,7 +22,15 @@ func (g Grid) Println() {
 	for _, row := range g {
 		for _, cell := range row {
 			if cell.Unit == nil {
+				if !cell.Walkable() {
+					fmt.Printf("\x1b[31m")
+				} else if cell.Base == '+' {
+					fmt.Printf("\x1b[32m")
+				} else if cell.Base == '*' || cell.Base == '-' {
+					fmt.Printf("\x1b[34m")
+				}
 				fmt.Printf("%c", cell.Base)
+				fmt.Printf("\x1b[0m")
 			} else {
 				fmt.Printf("%c", cell.Unit.Val)
 			}
